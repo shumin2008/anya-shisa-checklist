@@ -802,7 +802,8 @@
       updateImagePreview(item.image || '');
       saveItemBtn.textContent = '儲存修改';
       editStatus.textContent = `目前編輯中：${item.name}`;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      nameInput.focus();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
     function buildItemFromForm() {
@@ -817,7 +818,6 @@
         mapUrl: mapInput.value.trim(),
         notes: notesInput.value.trim(),
         tags: tagsInput.value.split(',').map(s => s.trim()).filter(Boolean),
-        done: false,
         updatedAt: serverTimestamp()
       };
     }
@@ -888,6 +888,7 @@
         await updateDoc(doc(db, FIRESTORE_COLLECTION, editingId), {
           ...newItem,
           done: current?.done || false,
+          createdAt: current?.createdAt || null,
           updatedAt: serverTimestamp()
         });
       } else {
