@@ -458,7 +458,7 @@
   <section class="hero" style="margin-top:12px;">
     <div class="eyebrow">📝 直接在頁面新增 / 編輯 / 刪除</div>
     <h2 style="margin:0 0 6px;font-size:22px;color:var(--shisa-deep-orange);font-weight:900;">清單管理</h2>
-    <p class="subtitle" style="max-width:100%;">直接在頁面表單輸入資料，按新增即可。</p>
+    
 
     <div class="editor-grid" style="display:grid;gap:10px;margin-top:14px;">
       <input id="nameInput" class="search" placeholder="品名，例如：紅芋塔" />
@@ -494,15 +494,11 @@
     <div id="editStatus" class="status" style="margin-top:10px;padding:0;justify-content:flex-start;gap:10px;">目前為新增模式</div>
 
     <div class="firebase-box">
-      <div class="small">
-        Firestore 測試規則請先設成：<code>allow read, write: if true;</code>。若你之後要正式上線，再改成登入後才能寫入。
-      </div>
+
     </div>
   </section>
 
-  <div class="tips">
-    這版功能包含：直接上傳圖片、Google Maps 連結解析、分類篩選、完成標記。圖片目前直接存成 base64 字串；若之後圖片很多，建議改成 Firebase Storage。
-  </div>
+  
 
   <div class="footer-space"></div>
 
