@@ -203,8 +203,14 @@
 
     .photo-wrap {
       position: relative;
-      aspect-ratio: 4 / 3;
+      height: 320px;
       background: linear-gradient(135deg, #FFE8D2, #FFF3E6);
+    }
+
+    @media (max-width: 640px) {
+      .photo-wrap {
+        height: 260px;
+      }
     }
 
     .photo {
@@ -861,19 +867,42 @@
 
       reader.onload = e => {
         img.onload = () => {
-          const maxWidth = 1200;
-          const scale = Math.min(1, maxWidth / img.width);
+          const maxWidth = 900;
+          const maxHeight = 900;
+
+          let targetWidth = img.width;
+          let targetHeight = img.height;
+
+          if (targetWidth > maxWidth || targetHeight > maxHeight) {
+            const widthRatio = maxWidth / targetWidth;
+            const heightRatio = maxHeight / targetHeight;
+            const scale = Math.min(widthRatio, heightRatio);
+            targetWidth = Math.round(targetWidth * scale);
+            targetHeight = Math.round(targetHeight * scale);
+          }
+
           const canvas = document.createElement('canvas');
-          canvas.width = img.width * scale;
-          canvas.height = img.height * scale;
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
           const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          const compressed = canvas.toDataURL('image/jpeg', 0.8);
+          ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+          let quality = 0.72;
+          let compressed = canvas.toDataURL('image/jpeg', quality);
+
+          while (compressed.length > 700000 && quality > 0.4) {
+            quality -= 0.08;
+            compressed = canvas.toDataURL('image/jpeg', quality);
+          }
+
           uploadedImageData = compressed;
           imageInput.value = '';
           updateImagePreview(compressed);
-          editStatus.textContent = `已上傳並壓縮圖片：${file.name}`;
+
+          const approxKB = Math.round((compressed.length * 0.75) / 1024);
+          editStatus.textContent = `已上傳並壓縮圖片：${file.name}（約 ${approxKB} KB）`;
         };
+
         img.src = e.target.result;
       };
 
