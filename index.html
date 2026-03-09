@@ -456,9 +456,9 @@
   <div class="list" id="list"></div>
 
   <section class="hero" style="margin-top:12px;">
-    
+    <div class="eyebrow">📝 直接在頁面新增 / 編輯 / 刪除</div>
     <h2 style="margin:0 0 6px;font-size:22px;color:var(--shisa-deep-orange);font-weight:900;">清單管理</h2>
-    
+    <p class="subtitle" style="max-width:100%;">直接在頁面表單輸入資料，按新增即可。</p>
 
     <div class="editor-grid" style="display:grid;gap:10px;margin-top:14px;">
       <input id="nameInput" class="search" placeholder="品名，例如：紅芋塔" />
@@ -491,14 +491,18 @@
       <button id="resetDemoBtn" class="action" type="button">寫入示範資料</button>
     </div>
 
-  
+    <div id="editStatus" class="status" style="margin-top:10px;padding:0;justify-content:flex-start;gap:10px;">目前為新增模式</div>
 
     <div class="firebase-box">
-
+      <div class="small">
+        Firestore 測試規則請先設成：<code>allow read, write: if true;</code>。若你之後要正式上線，再改成登入後才能寫入。
+      </div>
     </div>
   </section>
 
-  
+  <div class="tips">
+    這版功能包含：直接上傳圖片、Google Maps 連結解析、分類篩選、完成標記。圖片目前直接存成 base64 字串；若之後圖片很多，建議改成 Firebase Storage。
+  </div>
 
   <div class="footer-space"></div>
 
@@ -608,6 +612,10 @@
     const cancelEditBtn = document.getElementById('cancelEditBtn');
     const resetDemoBtn = document.getElementById('resetDemoBtn');
     const editStatus = document.getElementById('editStatus');
+
+    function setEditStatus(message) {
+      if (editStatus) editStatus.textContent = message;
+    }
 
     function escapeHtml(str = '') {
       return String(str).replace(/[&<>"']/g, s => ({
@@ -795,7 +803,7 @@
       imageFileInput.value = '';
       updateImagePreview('');
       saveItemBtn.textContent = '新增項目';
-      editStatus.textContent = '目前為新增模式';
+      setEditStatus('目前為新增模式');
     }
 
     function startEdit(id) {
@@ -815,7 +823,7 @@
       imageFileInput.value = '';
       updateImagePreview(item.image || '');
       saveItemBtn.textContent = '儲存修改';
-      editStatus.textContent = `目前編輯中：${item.name}`;
+      setEditStatus(`目前編輯中：${item.name}`);
       nameInput.focus();
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
@@ -839,20 +847,20 @@
     parseMapBtn.addEventListener('click', () => {
       const url = mapInput.value.trim();
       if (!url) {
-        editStatus.textContent = '請先貼上 Google 地圖連結';
+        setEditStatus('請先貼上 Google 地圖連結');
         return;
       }
 
       const parsed = parseGoogleMapsUrl(url);
       if (!parsed) {
-        editStatus.textContent = '這個連結目前無法解析，請改貼完整的 Google Maps 分享連結';
+        setEditStatus('這個連結目前無法解析，請改貼完整的 Google Maps 分享連結');
         return;
       }
 
       if (parsed.name && !storeInput.value.trim()) storeInput.value = parsed.name;
       if (parsed.location && !locationInput.value.trim()) locationInput.value = parsed.location;
       const summary = [parsed.name || parsed.location || '已帶入地點'].filter(Boolean).join(' ');
-      editStatus.textContent = `已從地圖連結帶入：${summary}`;
+      setEditStatus(`已從地圖連結帶入：${summary}`);
     });
 
     imageInput.addEventListener('input', () => {
@@ -908,7 +916,7 @@
           updateImagePreview(compressed);
 
           const approxKB = Math.round((compressed.length * 0.75) / 1024);
-          editStatus.textContent = `已上傳並壓縮圖片：${file.name}（約 ${approxKB} KB）`;
+          setEditStatus(`已上傳並壓縮圖片：${file.name}（約 ${approxKB} KB）`);
         };
 
         img.src = e.target.result;
