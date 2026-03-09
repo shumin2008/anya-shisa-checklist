@@ -41,7 +41,7 @@
       position: sticky;
       top: 0;
       z-index: 30;
-      padding: 12px 0 14px;
+      padding: 6px 0 8px;
       backdrop-filter: blur(14px);
       background: linear-gradient(180deg, rgba(255,248,241,0.94), rgba(255,248,241,0.82));
     }
@@ -50,44 +50,44 @@
       position: relative;
       overflow: hidden;
       border: 1px solid rgba(244, 215, 188, 0.95);
-      border-radius: 28px;
+      border-radius: 22px;
       background: linear-gradient(135deg, rgba(255,183,77,0.18), rgba(255,255,255,0.92));
       box-shadow: var(--shadow);
-      padding: 18px 18px 16px;
-      margin-bottom: 12px;
+      padding: 12px 14px 10px;
+      margin-bottom: 8px;
     }
 
     .hero::after {
       content: "🦁";
       position: absolute;
-      right: 16px;
-      top: 12px;
-      font-size: 40px;
-      opacity: 0.18;
+      right: 12px;
+      top: 8px;
+      font-size: 28px;
+      opacity: 0.16;
       transform: rotate(-8deg);
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       background: rgba(255,255,255,0.78);
       color: var(--shisa-deep-orange);
       border: 1px solid rgba(255,183,77,0.36);
       border-radius: 999px;
-      padding: 7px 10px;
-      font-size: 12px;
+      padding: 5px 8px;
+      font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.04em;
-      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
     }
 
     .title {
-      font-size: 28px;
+      font-size: 20px;
       line-height: 1.15;
       font-weight: 900;
       letter-spacing: 0.01em;
-      margin: 0 0 6px;
+      margin: 0;
       color: var(--shisa-deep-orange);
     }
 
@@ -102,8 +102,8 @@
     .search-wrap,
     .map-row {
       display: grid;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 8px;
+      margin-bottom: 8px;
     }
 
     .search-wrap,
@@ -113,9 +113,9 @@
       width: 100%;
       border: 1.5px solid var(--line);
       background: rgba(255,255,255,0.95);
-      border-radius: 16px;
-      padding: 13px 14px;
-      font-size: 16px;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 15px;
       outline: none;
       color: var(--shisa-brown);
       box-shadow: 0 2px 10px rgba(230,81,0,0.04);
@@ -126,12 +126,12 @@
 
     .btn {
       border: 0;
-      border-radius: 16px;
-      padding: 0 15px;
-      min-height: 48px;
+      border-radius: 14px;
+      padding: 0 12px;
+      min-height: 42px;
       background: linear-gradient(180deg, #FFB74D, #FF9F43);
       color: white;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
       letter-spacing: 0.02em;
       cursor: pointer;
@@ -140,9 +140,9 @@
 
     .chip-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       overflow-x: auto;
-      padding: 2px 2px 4px;
+      padding: 0 2px 2px;
       scrollbar-width: none;
     }
     .chip-row::-webkit-scrollbar { display: none; }
@@ -153,8 +153,8 @@
       background: rgba(255,255,255,0.92);
       color: var(--shisa-brown);
       border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 13px;
+      padding: 8px 12px;
+      font-size: 12px;
       font-weight: 800;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,0.03);
@@ -169,12 +169,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 4px;
-      margin: 6px 0 2px;
+      padding: 0 2px;
+      margin: 4px 0 0;
       color: var(--shisa-muted);
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -443,8 +443,6 @@
 
   <div class="list" id="list"></div>
 
-  <section class="hero" style="margin-top:12px;">
-    <div class="eyebrow">📝 直接在頁面新增 / 編輯 / 刪除</div>
     <h2 style="margin:0 0 6px;font-size:22px;color:var(--shisa-deep-orange);font-weight:900;">清單管理</h2>
     <p class="subtitle" style="max-width:100%;">直接在頁面表單輸入資料，按新增即可。</p>
 
@@ -478,19 +476,6 @@
       <button id="cancelEditBtn" class="action" type="button">清空表單</button>
       <button id="resetDemoBtn" class="action" type="button">寫入示範資料</button>
     </div>
-
-    <div id="editStatus" class="status" style="margin-top:10px;padding:0;justify-content:flex-start;gap:10px;">目前為新增模式</div>
-
-    <div class="firebase-box">
-      <div class="small">
-        Firestore 測試規則請先設成：<code>allow read, write: if true;</code>。若你之後要正式上線，再改成登入後才能寫入。
-      </div>
-    </div>
-  </section>
-
-  <div class="tips">
-    這版功能包含：直接上傳圖片、Google Maps 連結解析、分類篩選、完成標記。圖片目前直接存成 base64 字串；若之後圖片很多，建議改成 Firebase Storage。
-  </div>
 
   <div class="footer-space"></div>
 
